@@ -26,7 +26,7 @@ if (count($Config->get('services:list')) > 0)
                 $status = 0;
         }
         elseif ($protocol == 'systemd') {
-            $status = Misc::systemdServiceActive($host) ? 1 : 0;
+            $status = Misc::systemdServiceActive($host) ? 0 : 1;
         }
         else {
             throw new Exception('Invalid protocol: ' . $protocol);
