@@ -20,11 +20,11 @@ class Misc
             else
                 break;
         }
-        
+
         return round($filesize, $precision).' '.$units[$idUnit].'B';
     }
-    
-    
+
+
     /**
      * Returns hostname
      *
@@ -38,7 +38,7 @@ class Misc
 
     /**
      * Returns CPU cores number
-     * 
+     *
      * @return  int  Number of cores
      */
     public static function getCpuCoresNumber()
@@ -72,7 +72,7 @@ class Misc
     /**
      * Seconds to human readable text
      * Eg: for 36545627 seconds => 1 year, 57 days, 23 hours and 33 minutes
-     * 
+     *
      * @return string Text
      */
     public static function getHumanTime($seconds)
@@ -84,13 +84,13 @@ class Misc
             'minute' => 60,
             // 'second' => 1,
         );
-     
+
         $parts = array();
-     
+
         foreach ($units as $name => $divisor)
         {
             $div = floor($seconds / $divisor);
-     
+
             if ($div == 0)
                 continue;
             else
@@ -100,9 +100,9 @@ class Misc
                     $parts[] = $div.' '.$name.'s';
             $seconds %= $divisor;
         }
-     
+
         $last = array_pop($parts);
-     
+
         if (empty($parts))
             return $last;
         else
@@ -127,7 +127,7 @@ class Misc
             if (trim(shell_exec($cmd.' 2>/dev/null '.$args)) != '')
             {
                 $return = $cmd;
-                
+
                 if ($returnWithArgs)
                     $return .= $args;
 
@@ -144,7 +144,7 @@ class Misc
      * Ex : echo 'mot'.Misc::pluralize(5); ==> prints mots
      * Ex : echo 'cheva'.Misc::pluralize(5, 'ux', 'l'); ==> prints chevaux
      * Ex : echo 'cheva'.Misc::pluralize(1, 'ux', 'l'); ==> prints cheval
-     * 
+     *
      * @param  int       $nb         Number
      * @param  string    $plural     String for plural word
      * @param  string    $singular   String for singular word
@@ -157,15 +157,15 @@ class Misc
 
 
     /**
-     * Checks if a port is open (TCP or UPD)
+     * Checks if a socket is open
      *
      * @param  string   $host       Host to check
      * @param  int      $port       Port number
-     * @param  string   $protocol   tcp or udp
+     * @param  string   $protocol   tcp, udp or unix
      * @param  integer  $timeout    Timeout
      * @return bool                 True if the port is open else false
      */
-    public static function scanPort($host, $port, $protocol = 'tcp', $timeout = 3)
+    public static function socketAvailable($host, $port, $protocol, $timeout = 3)
     {
         if ($protocol == 'tcp')
         {
@@ -201,8 +201,8 @@ class Misc
 
                 $endTime = time();
 
-                $timeDiff = $endTime - $startTime; 
-                
+                $timeDiff = $endTime - $startTime;
+
                 fclose($handle);
 
                 if ($timeDiff >= $timeout)
@@ -211,7 +211,35 @@ class Misc
                     return false;
             }
         }
+        elseif ($protocol == 'unix')
+        {
+            $handle = @fsockopen('unix://'.$host, -1, $errno, $errstr, $timeout);
+
+            if (!$handle)
+            {
+                return false;
+            }
+            else
+            {
+                fclose($handle);
+                return true;
+            }
+        }
+        else {
+            throw new Exception('Invalid protocol: ' . $protocol);
+        }
 
         return false;
+    }
+
+    /**
+     * Checks if a Systemd service is active
+     *
+     * @param  string   $service    Service to check
+     * @return bool                 True if the service is active else false
+     */
+    public static function systemdServiceActive($service) {
+        exec('systemctl status ' . $service, $_out, $ret);
+        return $ret;
     }
 }
