@@ -5,7 +5,7 @@ $Config = new Config();
 
 $datas = array();
 
-$available_protocols = array('tcp', 'udp', 'unix');
+$available_protocols = array('tcp', 'udp', 'unix', 'systemd');
 
 $show_port = $Config->get('services:show_port');
 
@@ -25,8 +25,11 @@ if (count($Config->get('services:list')) > 0)
             else
                 $status = 0;
         }
-        else {
+        elseif ($protocol == 'systemd') {
             $status = Misc::systemdServiceActive($host) ? 1 : 0;
+        }
+        else {
+            throw new Exception('Invalid protocol: ' . $protocol);
         }
 
         $datas[] = array(
