@@ -16,7 +16,7 @@ body {
 
 a {
     color: $main-color;
-    
+
     &:hover {
         color: lighten($main-color, 5%);
         text-decoration: none;
@@ -48,19 +48,19 @@ nav[role="main"] {
     font-size: 16px;
     text-align: center;
     z-index: 2;
-    
+
     #appname {
         float: left;
         width: 150px;
         text-align: left;
-        
+
         a {
             color: #fff;
             text-decoration: none;
-            
+
             &:first-child {
                 font-size: 24px;
-                
+
                 span[class^="icon-"] {
                     font-size: 30px;
                     margin-right: 10px;
@@ -79,7 +79,7 @@ nav[role="main"] {
         float: left;
         margin-left: 110px;
         line-height: $navbar-height;
-        
+
         a {
             color: #fff;
             text-decoration: none;
@@ -91,25 +91,25 @@ nav[role="main"] {
         margin-left: 100px;
         line-height: $navbar-height;
         font-size: 13px;
-        
+
         a {
             color: #fff;
         }
     }
-    
+
     > ul {
         text-align: right;
         list-style-type: none;
-        
+
         > li {
             display: inline-block;
-            
+
             > a {
                 display: inline-block;
                 padding: (($navbar-height / 2) - 17px) 15px;
                 color: #fff;
                 text-decoration: none;
-                
+
                 &:hover {
                     background: lighten($main-color, 20%);
                 }
@@ -173,7 +173,7 @@ table:not(.no-style) {
         color: #898989;
         font-size: 13px;
         font-weight: bold;
-        
+
         tr th {
             text-align: center;
         }
@@ -198,7 +198,7 @@ table.firstBold tbody tr td:first-child {
 
     .progressbar {
         text-indent: 5px;
-        
+
         &.green { background-color: #7BCE6C; }
         &.orange { background-color: #E3BB80; }
         &.red { background-color: #CF6B6B; }
@@ -254,7 +254,7 @@ table.firstBold tbody tr td:first-child {
     body.theme-#{""+$name+""} {
         a {
             color: map-get($datas, main-color);
-            
+
             &:hover {
                 color: lighten(map-get($datas, main-color), 5%);
                 text-decoration: none;
@@ -272,7 +272,7 @@ table.firstBold tbody tr td:first-child {
 
         nav[role="main"] {
             background-color: map-get($datas, main-color);
-            
+
             > ul > li > a {
                 &:hover {
                     background: lighten(map-get($datas, main-color), 15%);
